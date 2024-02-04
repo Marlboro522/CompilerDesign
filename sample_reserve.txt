@@ -1,0 +1,6 @@
+Index	Name	Code
+1	cat     	 15     
+2	APPLE   	 11     
+3	Dog     	  5     
+4	DOnE    	 21     
+5	Over    	  8     
