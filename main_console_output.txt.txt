@@ -1,0 +1,20 @@
+Raja Kantheti CS4100 Homework 2, Spring 2024
+
+Testing the Quad Table
+
+At the start, NextQuad is: 0
+After one add, NextQuad is: 1
+Quad row at index 4 is: 1, 3, 5, 9
+Quad row at index 4 is: 1, 3, 5, 17
+Finally NextQuad is: 5
+Printing QuadTable to file Quad.txt
+
+Testing the Symbol Table
+
+testint is located at 0
+PI is located at 4
+ the KIND for PI is C
+The KIND for slot 5 is C, data type is S and the value: Please Enter A Value
+BadVal search returned -1
+
+Printing SymbolTable to file Symbol.txt
