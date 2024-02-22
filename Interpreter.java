@@ -68,7 +68,8 @@ public class Interpreter {
         qt.AddQuad(8, 0, 0, 2); // JUMP
         qt.AddQuad(6, 2, 0, 0); // PRINT
     }
-
+    //This fucntion needs to make a sense of the 16 instructions we defined. and that would be genneralized over any quad or symbol table 
+    //Seems logical at a bare-level
     public void InterpretQuads(QuadTable Q, SymbolTable S, boolean traceOn, String filename) {
     	try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             int pc = 0; // Program counter
