@@ -88,6 +88,73 @@ public class Interpreter {
                     writer.write(traceString);
                     writer.newLine();
                 }
+                switch (opcode) {
+                    case 0: // STOP
+                        System.out.println("Execution terminated by program stop.");
+                        return;
+                    case 1: // DIV
+                        S.UpdateSymbol(op3, 'V', S.GetInteger(op1) / S.GetInteger(op2));
+                        break;
+                    case 2: // MUL
+                        S.UpdateSymbol(op3, 'V', S.GetInteger(op1) * S.GetInteger(op2));
+                        break;
+                    case 3: // SUB
+                        S.UpdateSymbol(op3, 'V', S.GetInteger(op1) - S.GetInteger(op2));
+                        break;
+                    case 4: // ADD
+                        S.UpdateSymbol(op3, 'V', S.GetInteger(op1) + S.GetInteger(op2));
+                        break;
+                    case 5: // MOV
+                        S.UpdateSymbol(op3, 'V', S.GetInteger(op1));
+                        break;
+                    case 6: // PRINT
+                        writer.write(S.GetSymbol(op2)); // Assuming op1 contains the symbol index
+                        writer.newLine();
+                        break;
+                    case 7: // READ
+                    	System.out.print("Enter value for " + S.GetSymbol(op3) + ": ");
+                        Scanner scanner = new Scanner(System.in);
+                        int readValue = scanner.nextInt();
+                        S.UpdateSymbol(op3, 'V', readValue);
+                        break;
+                    case 8: // JMP
+                        PC = op3; // Jump to the specified quad
+                        continue; // Skip the PC increment
+                    case 9: // JZ
+                        if (S.GetInteger(op1) == 0) {
+                            PC = op3; // Jump to the specified quad
+                            continue; // Skip the PC increment
+                        }
+                        break;
+                    case 10: // JP
+                        if (S.GetInteger(op1) > 0) {
+                            PC = op3; // Jump to the specified quad
+                            continue; // Skip the PC increment
+                        }
+                        break;
+                    case 11: // JN
+                        if (S.GetInteger(op1) < 0) {
+                            PC = op3; // Jump to the specified quad
+                            continue; // Skip the PC increment
+                        }
+                        break;
+                    case 12: // JNZ
+                        if (S.GetInteger(op1) != 0) {
+                            PC = op3; // Jump to the specified quad
+                            continue; // Skip the PC increment
+                        }
+                        break;
+                    case 13: // JNP
+                        if (S.GetInteger(op1) >= 0) {
+                            PC = op3; // Jump to the specified quad
+                            continue; // Skip the PC increment
+                        }
+                        break;
+                    case 14: // JNN
+                        if (S.GetInteger(op1) <= 0) {
+                            PC = op3; // Jump to the specified quad
+                            continue; // Skip the PC increment
+                        }
 
     private String makeTraceString(int pc, int opcode, int op1, int op2, int op3, SymbolTable S) {
         String mnemonic = reserveTable.LookupCode(opcode);
