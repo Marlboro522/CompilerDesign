@@ -155,6 +155,21 @@ public class Interpreter {
                             PC = op3; // Jump to the specified quad
                             continue; // Skip the PC increment
                         }
+                        break;
+                    case 15: // JINDR
+                        // Implementation for JINDR opcode
+                        break;
+                    default:
+                        System.err.println("Invalid opcode: " + opcode);
+                        break;
+                }
+
+                PC++; // Move to the next quad
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String makeTraceString(int pc, int opcode, int op1, int op2, int op3, SymbolTable S) {
         String mnemonic = reserveTable.LookupCode(opcode);
