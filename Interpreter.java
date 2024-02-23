@@ -70,34 +70,24 @@ public class Interpreter {
     }
     //This fucntion needs to make a sense of the 16 instructions we defined. and that would be genneralized over any quad or symbol table 
     //Seems logical at a bare-level
-    public void InterpretQuads(QuadTable Q, SymbolTable S, boolean traceOn, String filename) {
-    	try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            int pc = 0; // Program counter
-            while (pc < Q.NextQuad()) {
-                int[] quad = Q.GetQuad(pc); // Get the current quad
-                if ("JP".equals(reserveTable.LookupCode(quad[0])) || "JMP".equals(reserveTable.LookupCode(quad[0]))) {
-                    int jumpDestination = quad[3]; // Get the jump destination
-                    if (jumpDestination >= 0 && jumpDestination < Q.NextQuad()) {
-                        pc = jumpDestination; // Jump to the specified line
-                    } else {
-                        // Handle invalid jump destination (e.g., print an error message)
-                        System.err.println("Invalid jump destination: " + jumpDestination);
-                        // Optionally, terminate the interpreter or take appropriate action
-                        break;
-                    }
-                } else {
-                    String traceMessage = makeTraceString(pc, quad[0], quad[1], quad[2], quad[3], S); // Generate trace message
-                    if (traceOn) {
-                        System.out.println(traceMessage); // Print to console
-                        writer.write(traceMessage + "\n"); // Write to file
-                    }
-                    pc++; // Move to the next quad
+    public void InterpretQuads(QuadTable Q, SymbolTable S, boolean TraceOn, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            int PC = 0; // Program counter
+
+            while (PC < Q.sharenextAvailable()) {
+                int[] quad = Q.GetQuad(PC);
+                int opcode = quad[0];
+                int op1 = quad[1];
+                int op2 = quad[2];
+                int op3 = quad[3];
+
+                // Echo trace mode printout if TraceOn is true
+                if (TraceOn) {
+                    String traceString = makeTraceString(PC, opcode, op1, op2, op3, S);
+                    System.out.println(traceString);
+                    writer.write(traceString);
+                    writer.newLine();
                 }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private String makeTraceString(int pc, int opcode, int op1, int op2, int op3, SymbolTable S) {
         String mnemonic = reserveTable.LookupCode(opcode);
