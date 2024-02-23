@@ -171,12 +171,12 @@ public class Interpreter {
         }
     }
 
-    private String makeTraceString(int pc, int opcode, int op1, int op2, int op3, SymbolTable S) {
-        String mnemonic = reserveTable.LookupCode(opcode);
+   private String makeTraceString(int pc, int opcode, int op1, int op2, int op3, SymbolTable S) {
+        String mnemonic = getMnemonic(opcode);
         String operand1 = S.GetSymbol(op1);
         String operand2 = S.GetSymbol(op2);
-        String operand3 = S.GetSymbol(op3);
-        return String.format("PC = %04d: %s %d <%s>, %d <%s>, %d <%s>", pc, mnemonic, opcode, operand1, op1, operand2, op2, operand3, op3);
+        String operand3 = (opcode >= 8 && opcode <= 14) ? Integer.toString(op3) : S.GetSymbol(op3);
+        return String.format("PC = %04d: %s %d <%s>, %d <%s>, %s", pc, mnemonic, opcode, operand1, op1, operand2, operand3);
     }
 
     private void InitializeReserveTable(ReserveTable optable) {
