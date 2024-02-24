@@ -178,8 +178,46 @@ public class Interpreter {
         String operand3 = (opcode >= 8 && opcode <= 14) ? Integer.toString(op3) : S.GetSymbol(op3);
         return String.format("PC = %04d: %s %d <%s>, %d <%s>, %s", pc, mnemonic, opcode, operand1, op1, operand2, operand3);
     }
+    private String getMnemonic(int opcode) {
+        switch (opcode) {
+            case 0:
+                return "STOP";
+            case 1:
+                return "DIV";
+            case 2:
+                return "MUL";
+            case 3:
+                return "SUB";
+            case 4:
+                return "ADD";
+            case 5:
+                return "MOV";
+            case 6:
+                return "PRINT";
+            case 7:
+                return "READ";
+            case 8:
+                return "JMP";
+            case 9:
+                return "JZ";
+            case 10:
+                return "JP";
+            case 11:
+                return "JN";
+            case 12:
+                return "JNZ";
+            case 13:
+                return "JNP";
+            case 14:
+                return "JNN";
+            case 15:
+                return "JINDR";
+            default:
+                return "UNKNOWN";
+        }
+    }
 
-    private void InitializeReserveTable(ReserveTable optable) {
+   private void InitializeReserveTable(ReserveTable optable) {
         // Add opcode mappings to ReserveTable
         optable.Add("STOP", 0);
         optable.Add("DIV", 1);
@@ -189,7 +227,7 @@ public class Interpreter {
         optable.Add("MOV", 5);
         optable.Add("PRINT", 6);
         optable.Add("READ", 7);
-        optable.Add("JMP", 8);
+        optable.Add("JUMP", 8);
         optable.Add("JZ", 9);
         optable.Add("JP", 10);
         optable.Add("JN", 11);
@@ -197,6 +235,7 @@ public class Interpreter {
         optable.Add("JNP", 13);
         optable.Add("JNN", 14);
         optable.Add("JINDR", 15);
-        // Implement according to assignment requirements
+        // Add other opcode mappings as needed
     }
+    
 }
