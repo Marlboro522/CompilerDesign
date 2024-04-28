@@ -22,7 +22,7 @@ public class Syntactic2 {
     //The interface to the syntax analyzer, initiates parsing
     // Uses variable RECUR to get return values throughout the non-terminal methods
     public void parse() {
-        int recur = 0;
+        int recur=0;
         // prime the pump to get the first token to process
         token = lex.GetNextToken();
         // call PROGRAM
@@ -84,6 +84,13 @@ public class Syntactic2 {
                 token = lex.GetNextToken();
                 recur = Statement();
             }
+            if (token.code == lex.codeFor("END")) {
+                token = lex.GetNextToken();
+            } else {
+                error("END", token.lexeme);
+            }
+        } else {
+            error("BEGIN", token.lexeme);
         }
         trace("Block", false);
         return recur;
@@ -143,7 +150,7 @@ public class Syntactic2 {
         // recur = Variable(); // Variable moves ahead, next token ready
         if (token.code == lex.codeFor("AS")) {
             token = lex.GetNextToken();
-            recur = SimpleExpression();
+            // recur = SimpleExpression();
         } else {
             error(lex.reserveFor("AS"), token.lexeme);
         }
