@@ -126,7 +126,7 @@ public class Syntactic2 {
                 || token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) {
             recur = Sign();
         }
-        if (token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("INTEG")) {
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
             recur = Term();
         }
         trace("SimpleExpression", false);
@@ -187,10 +187,10 @@ public class Syntactic2 {
             return -1;
         }
         trace("Term", true);
-        if (token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("INTEG")) {
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
             recur = Factor();
             token = lex.GetNextToken();
-            while ((token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) && (!lex.EOF()) && (!anyErrors)) {
+            while ((token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) && (!lex.EOF()) && (!anyErrors)) {
                 token = lex.GetNextToken();
                 recur = Factor();
             }
@@ -207,7 +207,7 @@ public class Syntactic2 {
             return -1;
         }
         trace("Factor", true);
-        if (token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("INTEG")) {
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
             token = lex.GetNextToken();
         } else if (token.code == lex.codeFor("IDENT")) {
             recur = Variable();
