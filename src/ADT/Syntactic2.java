@@ -129,9 +129,11 @@ public class Syntactic2 {
         //Need to check the logic flow here and also in the embedded functions here... 
         // Sign(), Term(), etc...
         //Signs, and also with the terms and shit.
-        if (token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")
-                || token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) {
+        if (token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) {
             recur = Sign();
+        }
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
+            recur = Term();
         }
         //HERE you made the mistake.... Check the CFG again and probably write a while loop to parse everything 
         while ((token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) && (!lex.EOF())
