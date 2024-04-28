@@ -122,16 +122,12 @@ public class Syntactic2 {
         //Need to check the logic flow here and also in the embedded functions here... 
         // Sign(), Term(), etc...
         //Signs, and also with the terms and shit.
-        if (token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) {
+        if (token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")
+                || token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) {
             recur = Sign();
-            token = lex.GetNextToken();
+        }
+        if (token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("INTEG")) {
             recur = Term();
-            while ((token.code == lex.codeFor("ADDIT") || token.code==lex.codeFor("SUBTR")) && (!lex.EOF()) && (!anyErrors)) {
-                token = lex.GetNextToken();
-                recur = Term();
-            }
-        }else {
-            error("ADDIT or SUBTR",token.lexeme);
         }
         trace("SimpleExpression", false);
         return recur;
@@ -144,7 +140,7 @@ public class Syntactic2 {
         }
         trace("handleAssignment", true);
         // have ident already in order to get to here, handle as Variable
-        recur = Variable(); // Variable moves ahead, next token ready
+        // recur = Variable(); // Variable moves ahead, next token ready
         if (token.code == lex.codeFor("AS")) {
             token = lex.GetNextToken();
             recur = SimpleExpression();
@@ -176,7 +172,7 @@ public class Syntactic2 {
             return -1;
         }
         trace("Sign", true);
-        if(token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")){
+        if(token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")|| token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")){
             token = lex.GetNextToken();
         } else {
             error("ADDIT or SUBTR", token.lexeme);
@@ -194,7 +190,7 @@ public class Syntactic2 {
         if (token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("INTEG")) {
             recur = Factor();
             token = lex.GetNextToken();
-            while ((token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVIS")) && (!lex.EOF()) && (!anyErrors)) {
+            while ((token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) && (!lex.EOF()) && (!anyErrors)) {
                 token = lex.GetNextToken();
                 recur = Factor();
             }
@@ -214,7 +210,7 @@ public class Syntactic2 {
         if (token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("INTEG")) {
             token = lex.GetNextToken();
         } else if (token.code == lex.codeFor("IDENT")) {
-            token = lex.GetNextToken();
+            recur = Variable();
         } else if (token.code == lex.codeFor("PARAO")) {
             token = lex.GetNextToken();
             recur = SimpleExpression();
