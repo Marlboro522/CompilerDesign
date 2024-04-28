@@ -43,7 +43,11 @@ public class Syntactic2 {
                 token = lex.GetNextToken();
                 recur = Block();
                 if (token.code == lex.codeFor("DOTTT")) {
-                    token = lex.GetNextToken();
+                    if(!anyErrors) {
+                    	System.out.println("Success.");
+                    }else {
+                    	System.out.println("Compilation Failed.");
+                    }
                 } else {
                     error("DOTTT", token.lexeme);
                 }
@@ -108,8 +112,7 @@ public class Syntactic2 {
                 recur = handleAssignment();
             } else{
                 error("AS",token.lexeme);
-            }
-//            token=lex.GetNextToken();  
+            }  
             recur=SimpleExpression();
         } else{
             error("Statement", token.lexeme);
@@ -132,12 +135,13 @@ public class Syntactic2 {
         if (token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) {
             recur = Sign();
         }
-        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT") || token.code==lex.codeFor("IDENT") || token.code==lex.codeFor("PARAO")) {
             recur = Term();
         }
         //HERE you made the mistake.... Check the CFG again and probably write a while loop to parse everything 
         while ((token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) && (!lex.EOF())
                 && (!anyErrors)) {
+        	token=lex.GetNextToken();
             recur = Term();
         } 
         trace("SimpleExpression", false);
@@ -154,7 +158,6 @@ public class Syntactic2 {
         // recur = Variable(); // Variable moves ahead, next token ready
         if (token.code == lex.codeFor("AS")) {
             token = lex.GetNextToken();
-            // recur = SimpleExpression();
         } else {
             error(lex.reserveFor("AS"), token.lexeme);
         }
@@ -198,9 +201,8 @@ public class Syntactic2 {
             return -1;
         }
         trace("Term", true);
-        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT") || token.code==lex.codeFor("IDENT") || token.code==lex.codeFor("PARAO")) {
             recur = Factor();
-//            token = lex.GetNextToken();
             while ((token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) && (!lex.EOF()) && (!anyErrors)) {
                 token = lex.GetNextToken();
                 recur = Factor();
@@ -218,10 +220,8 @@ public class Syntactic2 {
             return -1;
         }
         trace("Factor", true);
-        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
+        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")||token.code == lex.codeFor("IDENT")) {
             token = lex.GetNextToken();
-        } else if (token.code == lex.codeFor("IDENT")) {
-            recur = Variable();
         } else if (token.code == lex.codeFor("PARAO")) {
             token = lex.GetNextToken();
             recur = SimpleExpression();
