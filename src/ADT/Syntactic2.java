@@ -133,9 +133,11 @@ public class Syntactic2 {
                 || token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) {
             recur = Sign();
         }
-        if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
+        //HERE you made the mistake.... Check the CFG again and probably write a while loop to parse everything 
+        while ((token.code == lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR")) && (!lex.EOF())
+                && (!anyErrors)) {
             recur = Term();
-        }
+        } 
         trace("SimpleExpression", false);
         return recur;
     }
