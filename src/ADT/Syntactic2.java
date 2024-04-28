@@ -109,7 +109,7 @@ public class Syntactic2 {
             } else{
                 error("AS",token.lexeme);
             }
-            token=lex.GetNextToken();  
+//            token=lex.GetNextToken();  
             recur=SimpleExpression();
         } else{
             error("Statement", token.lexeme);
@@ -200,7 +200,7 @@ public class Syntactic2 {
         trace("Term", true);
         if (token.code == lex.codeFor("NCFLO") || token.code == lex.codeFor("NCINT")) {
             recur = Factor();
-            token = lex.GetNextToken();
+//            token = lex.GetNextToken();
             while ((token.code == lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID")) && (!lex.EOF()) && (!anyErrors)) {
                 token = lex.GetNextToken();
                 recur = Factor();
