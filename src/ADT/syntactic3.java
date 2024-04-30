@@ -81,7 +81,7 @@ public class Syntactic3 {
             return -1;
         }
         trace("Block", true);
-        if (token.code == lex.codeFor("VAR")) {
+        while (token.code == lex.codeFor("VAR")) {
             recur = VariableDecSec();
         }
         if (token.code == lex.codeFor("BEGIN")) {
@@ -115,6 +115,7 @@ public class Syntactic3 {
             return -1;
         }
         trace("Variable Declaration", true);
+        System.out.println(token.code + " " + lex.codeFor("COLON"));
         if (token.code == lex.codeFor("IDENT")) {
             token = lex.GetNextToken();
             while (token.code == lex.codeFor("COMMA")) {
@@ -125,6 +126,7 @@ public class Syntactic3 {
                     error("IDENT", token.lexeme);
                 }
             }
+            System.out.println(token.code + " " + lex.codeFor("COLON"));
             if (token.code == lex.codeFor("COLON")) {
                 token = lex.GetNextToken();
                 if (token.code == lex.codeFor("INTEG") || token.code == lex.codeFor("FLOAT")
@@ -277,14 +279,16 @@ public class Syntactic3 {
             token =  lex.GetNextToken();
             if(token.code == lex.codeFor("PARAO")){
                 token = lex.GetNextToken();
-                if(token.code == lex.codeFor("NCFLO")||token.code=lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR") || token.code ==  lex.codeFor("MULTI") | || token.code == lex.codeFor("DIVID") | token.code == lex.codeFor("NCINT") || token.code == lex.codeFor("INTEG") || token.code == lex.codeFor("FLOAT")){
+                if(token.code == lex.codeFor("NCFLO")||token.code==lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR") || token.code ==  lex.codeFor("MULTI")  || token.code == lex.codeFor("DIVID") || token.code == lex.codeFor("NCINT") || token.code == lex.codeFor("INTEG") || token.code == lex.codeFor("FLOAT")){
                     recur = SimpleExpression();
-                    return recur;
                 } else if (token.code == lex.codeFor("IDENT") || token.code == lex.codeFor("STRCO")) {
                     token=lex.GetNextToken();
                 }else{
                     error("Writeln",token.lexeme);
                 }
+            } if(token.code == lex.codeFor("PARAC")) {
+            	token = lex.GetNextToken();
+            	return recur;
             }
             return recur;
         }
@@ -367,7 +371,7 @@ public class Syntactic3 {
         }
         trace("Rekational Expressions", true);
         // I have to check the token.code assignment here......
-        if(token.code == lex.codeFor("NCFLO")||token.code=lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR") || token.code ==  lex.codeFor("MULTI") | || token.code == lex.codeFor("DIVID") | token.code == lex.codeFor("NCINT") || token.code == lex.codeFor("INTEG") || token.code == lex.codeFor("FLOAT")){
+        if(token.code == lex.codeFor("NCFLO")||token.code==lex.codeFor("ADDIT") || token.code == lex.codeFor("SUBTR") || token.code ==  lex.codeFor("MULTI") || token.code == lex.codeFor("DIVID") || token.code == lex.codeFor("NCINT") || token.code == lex.codeFor("INTEG") || token.code == lex.codeFor("FLOAT") || token.code == lex.codeFor("IDENT")){
             recur = SimpleExpression();
             if(token.code == lex.codeFor("EQUAL") || token.code == lex.codeFor("LESST") || token.code == lex.codeFor("GREAT") || token.code == lex.codeFor("LESSE") || token.code == lex.codeFor("GREAE")){
                 token = lex.GetNextToken();
